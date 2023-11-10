@@ -94,7 +94,9 @@ app.use((req, res, next) =>{
 //   let registeredUser= await User.register(fakeUser, "helloworld");
 //   res.send(registeredUser);
 // })
-
+app.listen(8080, () =>{
+    console.log("server is listening to port 8080")
+})
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewsRouter);
 app.use("/", userRouter);
@@ -109,6 +111,3 @@ app.use((err, req, res, next) =>{
     res.status(statusCode).send(message);
 });
 
-app.listen(8080, () =>{
-    console.log("server is listening to port 8080")
-})
