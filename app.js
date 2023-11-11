@@ -31,8 +31,11 @@ main()
      console.log(err)
     });
 async function main() {
-  await mongoose.connect(dbUrl)};
-
+  await mongoose.connect(dbUrl)
+};
+app.listen(8080, () =>{
+    console.log("server is listening to port 8080")
+})
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -50,7 +53,7 @@ const store= MongoStore.create({
 });
 
 store.on("error", ()=>{
-    console.log ("ERROR in mongo session store", err);
+    console.log ("ERROR in mongo session store");
 });
 
 const sessionOptions = {
@@ -95,9 +98,9 @@ app.use((req, res, next) =>{
 //   res.send(registeredUser);
 // })
 
+app.use("/", userRouter);
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewsRouter);
-app.use("/", userRouter);
 
    
 app.all("*", (req, res, next)=>{
@@ -106,9 +109,5 @@ app.all("*", (req, res, next)=>{
 app.use((err, req, res, next) =>{
     let {statusCode=500, message="something went wrong!"} = err;
     res.status(statusCode).render("error.ejs", {message})
-    res.status(statusCode).send(message);
 });
 
-app.listen(8080, () =>{
-    console.log("server is listening to port 8080")
-})
